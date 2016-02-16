@@ -8,6 +8,8 @@ Note: pyBigWig only allow float as values
 
 def dhstobw(bamfile, bwfile, library='Duke'):
 
+    # unfinished
+
     bamfor = Baminfo.Baminfo(bamfile)
 
     bw = pyBigWig.open(bwfile, "w")
