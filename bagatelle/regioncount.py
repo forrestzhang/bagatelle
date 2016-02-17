@@ -29,6 +29,14 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
     socorefile = open(outfile, 'w')
 
+    header = list()
+
+    for j in range(0-up, down+1, winsize):
+
+        header.append(str(j))
+
+        print('chromosome', 'start', 'end', "\t".join(header), sep='\t', file=socorefile)
+
     for bed in bedio.readlines():
 
         bed = bed.rstrip('\n')
@@ -95,13 +103,6 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
                 scorelist = scorelist.reverse()
 
-        header = list()
-
-        for j in range(0-up, down+1, winsize):
-
-            header.append(str(j))
-
-        print('chromosome', 'start', 'end', "\t".join(header), sep='\t', file=socorefile)
 
         print(chromosome, start, end, "\t".join(scorelist), sep='\t', file=socorefile)
 
