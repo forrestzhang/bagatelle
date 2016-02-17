@@ -37,6 +37,10 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
     print('chromosome', 'start', 'end', "\t".join(header), sep='\t', file=socorefile)
 
+    chrlen = bw.chroms()
+
+    # print(chrlen)
+
     for bed in bedio.readlines():
 
         bed = bed.rstrip('\n')
@@ -59,13 +63,13 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         if ctregionstart < 0 :
 
-            print("%d is too close to %s start" % (start, chromosome))
+            print("%d is too close to %s start %d" % (start, chromosome, chrlen[chromosome]))
 
             continue
 
-        if ctregionend > bw.chroms(chromosome):
+        if ctregionend > chrlen[chromosome]:
 
-            print("%d is too close to %s end %d" % (end, chromosome, bw.chroms(chromosome)))
+            print("%d is too close to %s end %d" % (end, chromosome, chrlen[chromosome]))
 
             continue
 
