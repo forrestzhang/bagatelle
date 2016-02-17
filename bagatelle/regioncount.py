@@ -35,7 +35,7 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         header.append(str(j))
 
-        print('chromosome', 'start', 'end', "\t".join(header), sep='\t', file=socorefile)
+    print('chromosome', 'start', 'end', "\t".join(header), sep='\t', file=socorefile)
 
     for bed in bedio.readlines():
 
