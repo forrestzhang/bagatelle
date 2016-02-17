@@ -1,5 +1,8 @@
 import pyBigWig
 from multiprocessing import Pool
+import gzip
+import shutil
+import os
 # count score up and down stream of middlesite or region
 
 
@@ -120,13 +123,20 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
 def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
              maxfilter=9999999999, minfilter=0, stranded=False,
-             nantozero=True, outfile="midcount.txt",threads=2):
+             nantozero=True, outfile="midcount.txt",threads=2, gziped=True):
 
     bw = pyBigWig.open(bwfile, "r")
 
     bedio = open(bedfile, 'r')
 
-    socorefile = open(outfile, 'w')
+    if gziped:
+
+        gzfile = outfile+'.gz'
+
+        socorefile = gzip.open(gzfile, 'w')
+
+    else:
+        socorefile = open(outfile, 'w')
 
     header = list()
 
@@ -134,7 +144,12 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         header.append(str(j))
 
-    print('chromosome', 'start', 'end', "\t".join(header), sep='\t', file=socorefile)
+    headerstring = 'chromosome' + "\t"+'start'+"\t"+'end'+"\t"+"\t".join(header)+'\n'
+
+    if gziped:
+        socorefile.write(headerstring.encode('ascii'))
+    else:
+        socorefile.write(headerstring)
 
     workerlist = list()
 
@@ -212,10 +227,28 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         for resultstring in res:
 
-            print(resultstring, file=socorefile)
+            # print(resultstring, file=socorefile)
+            resultstring = resultstring + "\n"
+            if gziped:
+                socorefile.write(resultstring.encode('ascii'))
+            else:
+                socorefile.write(resultstring)
 
     socorefile.close()
 
+
+    # gzip file
+    # if gziped:
+    #
+    #     gzfile = outfile+'.gz'
+    #
+    #     with open(outfile, 'rb') as f_in:
+    #
+    #         with gzip.open(gzfile, 'wb') as f_out:
+    #
+    #             shutil.copyfileobj(f_in, f_out)
+    #
+    #     os.remove(outfile)
 
 def midcountworker(workerinfor):
 
