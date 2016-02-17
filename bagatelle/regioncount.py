@@ -59,7 +59,7 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         ctregionstart = midsite - up
 
-        ctregionend = midsite + end
+        ctregionend = midsite + down
 
         if ctregionstart < 0 :
 
@@ -70,7 +70,7 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
         if ctregionend > chrlen[chromosome]:
 
             print("%d is too close to %s end %d" % (end, chromosome, chrlen[chromosome]))
-            print(chromosome, start, end, midsite, ctregionstart, ctregionend )
+            # print(chromosome, start, end, midsite, ctregionstart, ctregionend )
             continue
 
         socorelist1 = bw.stats(chromosome, ctregionstart, ctregionend, nBins=nbins)

@@ -57,8 +57,8 @@
       <file leaf-file-name="regioncount.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/bagatelle/regioncount.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.93989986">
-              <caret line="72" column="77" selection-start-line="72" selection-start-column="77" selection-end-line="72" selection-end-column="77" />
+            <state vertical-scroll-proportion="0.84140235">
+              <caret line="72" column="81" selection-start-line="72" selection-start-column="81" selection-end-line="72" selection-end-column="81" />
               <folding />
             </state>
           </provider>
@@ -661,7 +661,13 @@
       <option name="project" value="LOCAL" />
       <updated>1455731697657</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="code test">
+      <created>1455732083281</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1455732083281</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -732,7 +738,8 @@
     <MESSAGE value="header bug fix" />
     <MESSAGE value="update warning" />
     <MESSAGE value="end filter bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="end filter bug fix" />
+    <MESSAGE value="code test" />
+    <option name="LAST_COMMIT_MESSAGE" value="code test" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1021,8 +1028,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/bagatelle/regioncount.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.93989986">
-          <caret line="72" column="77" selection-start-line="72" selection-start-column="77" selection-end-line="72" selection-end-column="77" />
+        <state vertical-scroll-proportion="0.84140235">
+          <caret line="72" column="81" selection-start-line="72" selection-start-column="81" selection-end-line="72" selection-end-column="81" />
           <folding />
         </state>
       </provider>
