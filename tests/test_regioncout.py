@@ -23,6 +23,10 @@ class TestbamTobigwig(unittest.TestCase):
         regioncount.midcount(bwfile=self.npsbw, bedfile=self.nostrandbed, up=50, down=50,
                              winsize=5, outfile=self.outfile)
 
+    def testmidcountnostrandthread(self):
+
+        regioncount.midcountmp(bwfile=self.npsbw, bedfile=self.nostrandbed, up=50, down=50,
+                             winsize=5, outfile=self.outfile,threads=3)
 
 if __name__ == '__main__':
 
