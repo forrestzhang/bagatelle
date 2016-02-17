@@ -59,13 +59,13 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         if ctregionstart < 0 :
 
-            print("%d is too close to chromosome start" % start)
+            print("%d is too close to %s start" % (start, chromosome))
 
             continue
 
         if ctregionend > bw.chroms(chromosome):
 
-            print("%d is too close to chromosome end" % end)
+            print("%d is too close to %s end" % (end, chromosome))
 
             continue
 
