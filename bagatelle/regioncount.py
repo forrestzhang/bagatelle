@@ -89,17 +89,21 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
                     i = 0
 
-                scorelist.append(str(i))
+                else:
 
-                continue
+                    i = 'Nan'
 
-            if i < minfilter:
+                # scorelist.append(str(i))
+                #
+                # continue
+            else:
+                if i < minfilter:
 
-                i = minfilter
+                    i = minfilter
 
-            if i > maxfilter:
+                if i > maxfilter:
 
-                i = maxfilter
+                    i = maxfilter
 
             scorelist.append(str(i))
 
@@ -109,7 +113,7 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
             # Reverse - strand score
             if bedinfor[5] == '-':
 
-                scorelist = scorelist.reverse()
+                scorelist = reversed(scorelist)
 
 
         print(chromosome, start, end, "\t".join(scorelist), sep='\t', file=socorefile)
@@ -124,6 +128,25 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
              maxfilter=9999999999, minfilter=0, stranded=False,
              nantozero=True, outfile="midcount.txt",threads=2, gziped=True):
+
+    """
+
+    :param bwfile:
+    :param bedfile:
+    :param up:
+    :param down:
+    :param winsize:
+    :param maxfilter:
+    :param minfilter:
+    :param stranded:
+    :param nantozero:
+    :param outfile:
+    :param threads:
+    :param gziped:
+    :return:
+
+    Generate matrix file
+    """
 
     bw = pyBigWig.open(bwfile, "r")
 
@@ -302,7 +325,7 @@ def midcountworker(workerinfor):
             # Reverse - strand score
             if regioninfo[3] == '-':
 
-                scorelist = scorelist.reverse()
+                scorelist = reversed(scorelist)
 
 
         scorestring = region.replace('_','\t') + '\t' +'\t'.join(scorelist)
