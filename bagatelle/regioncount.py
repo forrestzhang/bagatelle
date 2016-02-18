@@ -11,8 +11,8 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
              nantozero=True, outfile="midcount.txt", gziped=True):
 
     """
-    :param bwfile:
-    :param bedfile:
+    :param bwfile: bigwig file
+    :param bedfile: bed file of peak/hotspots
     :param up:
     :param down:
     :param winsize: windowsize
@@ -23,6 +23,8 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
     Given bed file and bw file count score in flanking region of bed middle site(s)
 
+              up                mid                   down
+    ==========*=================|======================*===========
 
     """
 
