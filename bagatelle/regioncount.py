@@ -331,7 +331,7 @@ def midcountworker(workerinfor):
 
                 scorelist = reversed(scorelist)
 
-        scorestring = region[0:3].replace('_','\t') + '\t' +'\t'.join(scorelist)
+        scorestring = '\t'.regioninfo[0:3] + '\t' +'\t'.join(scorelist)
 
         result.append(scorestring)
 
