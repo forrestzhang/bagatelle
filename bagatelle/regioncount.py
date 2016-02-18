@@ -8,7 +8,7 @@ import os
 
 def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
              maxfilter=9999999999, minfilter=0, stranded=False,
-             nantozero=True, outfile="midcount.txt"):
+             nantozero=True, outfile="midcount.txt", gziped=True):
 
     """
     :param bwfile:
@@ -30,7 +30,14 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
     bedio = open(bedfile, 'r')
 
-    socorefile = open(outfile, 'w')
+    if gziped:
+
+        gzfile = outfile+'.gz'
+
+        socorefile = gzip.open(gzfile, 'w')
+
+    else:
+        socorefile = open(outfile, 'w')
 
     header = list()
 
@@ -38,7 +45,12 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         header.append(str(j))
 
-    print('chromosome', 'start', 'end', "\t".join(header), sep='\t', file=socorefile)
+    headerstring = 'chromosome' + "\t"+'start'+"\t"+'end'+"\t"+"\t".join(header)+'\n'
+
+    if gziped:
+        socorefile.write(headerstring.encode('ascii'))
+    else:
+        socorefile.write(headerstring)
 
     chrlen = bw.chroms()
 
@@ -58,8 +70,6 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
         end = int(bedinfor[2])
 
         midsite = int((start + end)/2)
-
-
 
         ctregionstart = midsite - up
 
@@ -93,9 +103,6 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
                     i = 'Nan'
 
-                # scorelist.append(str(i))
-                #
-                # continue
             else:
                 if i < minfilter:
 
@@ -116,7 +123,15 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
                 scorelist = reversed(scorelist)
 
 
-        print(chromosome, start, end, "\t".join(scorelist), sep='\t', file=socorefile)
+        # print(chromosome, start, end, "\t".join(scorelist), sep='\t', file=socorefile)
+
+        resultstring = chromosome+ '\t' + str(start) + '\t' + str(end) + '\t' +'\t'.join(scorelist)+"\n"
+
+        if gziped:
+                socorefile.write(resultstring.encode('ascii'))
+        else:
+                socorefile.write(resultstring)
+
 
     bedio.close()
 
@@ -252,6 +267,7 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
             # print(resultstring, file=socorefile)
             resultstring = resultstring + "\n"
+
             if gziped:
                 socorefile.write(resultstring.encode('ascii'))
             else:
@@ -259,19 +275,6 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
     socorefile.close()
 
-
-    # gzip file
-    # if gziped:
-    #
-    #     gzfile = outfile+'.gz'
-    #
-    #     with open(outfile, 'rb') as f_in:
-    #
-    #         with gzip.open(gzfile, 'wb') as f_out:
-    #
-    #             shutil.copyfileobj(f_in, f_out)
-    #
-    #     os.remove(outfile)
 
 def midcountworker(workerinfor):
 
@@ -305,28 +308,26 @@ def midcountworker(workerinfor):
 
                     i = 0
 
-                scorelist.append(str(i))
+                else:
 
-                continue
+                    i = 'Nan'
 
-            if i < minfilter:
+            else:
+                if i < minfilter:
 
-                i = minfilter
+                    i = minfilter
 
-            if i > maxfilter:
+                if i > maxfilter:
 
-                i = maxfilter
+                    i = maxfilter
 
             scorelist.append(str(i))
-
-
 
         if stranded:
             # Reverse - strand score
             if regioninfo[3] == '-':
 
                 scorelist = reversed(scorelist)
-
 
         scorestring = region.replace('_','\t') + '\t' +'\t'.join(scorelist)
 

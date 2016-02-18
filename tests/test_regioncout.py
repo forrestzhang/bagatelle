@@ -20,12 +20,14 @@ class TestbamTobigwig(unittest.TestCase):
 
         self.outfile = path.join(self.inputpath, 'npsscore.txt')
 
+        self.outfilenth1 = path.join(self.inputpath, 'npsscore1th.txt')
+
         self.outfilest = path.join(self.inputpath, 'npsscorest.txt')
 
     def testmidcountnostrand(self):
 
         regioncount.midcount(bwfile=self.npsbw, bedfile=self.nostrandbed, up=50, down=50,
-                             winsize=5, outfile=self.outfile)
+                             winsize=5, outfile=self.outfilenth1)
 
     def testmidcountnostrandthread(self):
 
@@ -40,6 +42,11 @@ class TestbamTobigwig(unittest.TestCase):
     def testmidcountstrand(self):
 
         regioncount.midcount(bwfile=self.npsbw, bedfile=self.strandbed, up=50, down=50,
+                             winsize=5, outfile=self.outfilest, stranded=True)
+
+    def testmidcountstrandmp(self):
+
+        regioncount.midcountmp(bwfile=self.npsbw, bedfile=self.strandbed, up=50, down=50,
                              winsize=5, outfile=self.outfilest, stranded=True)
 
 if __name__ == '__main__':
