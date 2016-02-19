@@ -73,7 +73,7 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         midsite = int((start + end)/2)
 
-        ctregionstart = midsite - up
+        ctregionstart = midsite - up - 1
 
         ctregionend = midsite + down
 
@@ -233,7 +233,7 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         midsite = int((start + end)/2)
 
-        ctregionstart = midsite - up
+        ctregionstart = midsite - up - 1
 
         ctregionend = midsite + down
 
@@ -302,11 +302,13 @@ def midcountworker(workerinfor):
 
         if (int(regioninfo[2]) - int(regioninfo[1]) + 1 ) == nbins:
 
+            # print("1bp")
             socorelist1 = bw.values(regioninfo[0], int(regioninfo[1]), int(regioninfo[2]))
+            # print(len(socorelist1), nbins)
 
         else:
             socorelist1 = bw.stats(regioninfo[0], int(regioninfo[1]), int(regioninfo[2]), nBins=nbins)
-
+            # print(len(socorelist1), nbins)
         scorelist = list()
 
         for i in socorelist1:
