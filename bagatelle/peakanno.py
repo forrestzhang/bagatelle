@@ -121,7 +121,9 @@ def main():
 
                 other = inf.split(',')
 
+            if typenow == 'makeintron':
 
+                mkintron = inf
 
 
     else:
@@ -214,31 +216,31 @@ def main():
 
                     print ()
 
-    mkintron = False
+    if not mkintron:
 
-    if 'intron' not in gffd:
+        if 'intron' not in gffd:
 
-        while True:
+            while True:
 
-            print ("Do not find intron annotation, suggest make intron annotation. y(es) or n(o)")
+                print ("Do not find intron annotation, suggest make intron annotation. y(es) or n(o)")
 
-            intronyes = eval(input("suggest yes: ")) or 'yes'
+                intronyes = eval(input("suggest yes: ")) or 'yes'
 
-            if intronyes=='yes' or intronyes=='y':
+                if intronyes=='yes' or intronyes=='y':
 
-                mkintron = True
+                    mkintron = True
 
-                break
+                    break
 
-            elif intronyes=='no' or intronyes=='n':
+                elif intronyes=='no' or intronyes=='n':
 
-                mkintron = False
+                    mkintron = False
 
-                break
+                    break
 
-            else:
+                else:
 
-                continue
+                    continue
 
     updonwfile = gfffile+"updown"
 
