@@ -261,6 +261,8 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         nowworker += 1
 
+    bedio.close()
+
     pool = Pool(threads)
 
     for res in pool.imap_unordered(midcountworker, workerlist):
