@@ -300,11 +300,11 @@ def midcountworker(workerinfor):
 
         regioninfo = region.split("_")
 
-        if (int(regioninfo[2]) - int(regioninfo[1]) + 1 ) == nbins:
+        if (int(regioninfo[2]) - int(regioninfo[1]) ) == nbins:
 
-            # print("1bp")
+            print("1bp")
             socorelist1 = bw.values(regioninfo[0], int(regioninfo[1]), int(regioninfo[2]))
-            # print(len(socorelist1), nbins)
+            print(len(socorelist1), nbins)
 
         else:
             socorelist1 = bw.stats(regioninfo[0], int(regioninfo[1]), int(regioninfo[2]), nBins=nbins)
