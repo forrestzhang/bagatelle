@@ -4,7 +4,7 @@ import gzip
 import shutil
 import os
 # count score up and down stream of middlesite or region
-
+import math
 
 def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
              maxfilter=9999999999, minfilter=0, stranded=False,
@@ -315,6 +315,14 @@ def midcountworker(workerinfor):
 
             if not i:
 
+                if nantozero:
+
+                    i = 0
+
+                else:
+
+                    i = 'Nan'
+            elif math.isnan(i):
                 if nantozero:
 
                     i = 0
