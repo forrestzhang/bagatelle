@@ -277,6 +277,8 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
             else:
                 socorefile.write(resultstring)
 
+    pool.close()
+
     socorefile.close()
 
 
