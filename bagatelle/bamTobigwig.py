@@ -14,7 +14,31 @@ def dhstobw(bamfile, bwfile, library='Duke'):
 
     bw = pyBigWig.open(bwfile, "w")
 
-    pass
+    bw.addHeader(list(bamfor.chrlen.items()))
+
+    for chromosome in bamfor.chrlen:
+
+        end = bamfor.chrlen[chromosome]
+
+        dhscut = dhsbam.dhcutcount(bamfile=bamfile, chromosome=chromosome, start=1,
+                                         end=end, library=library)
+
+        if dhscut:
+
+            starts = list()
+
+            values = list()
+
+            for start in sorted(dhscut):
+
+                starts.append(start)
+
+                values.append(float(dhscut[start]))
+
+            bw.addEntries(chromosome, starts=starts, values=values,
+                          span=1, step=1)
+
+    bw.close()
 
 
 def midtobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
