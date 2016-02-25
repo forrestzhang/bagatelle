@@ -95,11 +95,11 @@ def dhsstrandtobw(bamfile,rbwfile, fbwfile, library='Duke', nagtiverev=True):
 
             values = list()
 
-            for start in sorted(dhscut):
+            for start in sorted(dhscut['+']):
 
                 starts.append(start)
 
-                values.append(float(dhscut[start]))
+                values.append(float(dhscut['+'][start]))
 
             bwf.addEntries(chromosome, starts=starts, values=values,
                           span=1, step=1)
@@ -110,13 +110,13 @@ def dhsstrandtobw(bamfile,rbwfile, fbwfile, library='Duke', nagtiverev=True):
 
             values = list()
 
-            for start in sorted(dhscut):
+            for start in sorted(dhscut['-']):
 
                 starts.append(start)
                 if nagtiverev:
-                    values.append(0-float(dhscut[start]))
+                    values.append(0-float(dhscut['-'][start]))
                 else:
-                    values.append(float(dhscut[start]))
+                    values.append(float(dhscut['-'][start]))
 
             bwr.addEntries(chromosome, starts=starts, values=values,
                           span=1, step=1)
