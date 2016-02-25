@@ -86,7 +86,7 @@ def dhsstrandtobw(bamfile,rbwfile, fbwfile, library='Duke', nagtiverev=True):
 
         end = bamfor.chrlen[chromosome]
 
-        dhscut = dhsbam.dhcutcount(bamfile=bamfile, chromosome=chromosome, start=1,
+        dhscut = dhsbam.dhstrandcutcount(bamfile=bamfile, chromosome=chromosome, start=1,
                                          end=end, library=library)
 
         if dhscut['+']:
