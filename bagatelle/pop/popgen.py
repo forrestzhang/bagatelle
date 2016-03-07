@@ -1,7 +1,8 @@
 import pandas as pd
 import math
-from multiprocessing import Pool
 
+
+## Start Tajima's D
 
 def _count_diff(list1, list2):
 
@@ -97,3 +98,5 @@ def tajimaworker(par):
     tjimad = tajimaD(tmpma)
     # print(scare,tjimad)
     return(scare,tjimad)
+
+## End Tajima's D
