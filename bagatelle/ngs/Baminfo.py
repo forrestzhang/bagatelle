@@ -1,5 +1,4 @@
-import pysam
-from bagatelle import openBam
+from bagatelle.ngs import openBam
 
 
 class Baminfo:

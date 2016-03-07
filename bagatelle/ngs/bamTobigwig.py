@@ -1,6 +1,7 @@
-from bagatelle import openBam, Baminfo, dhsbam, mhsbam
 import pyBigWig
-import os
+
+from bagatelle.ngs import Baminfo, mhsbam
+from bagatelle.ngs import dhsbam
 
 """
 Note: pyBigWig only allow float as values
@@ -34,7 +35,7 @@ def dhstobw(bamfile, bwfile, library='Duke'):
         end = bamfor.chrlen[chromosome]
 
         dhscut = dhsbam.dhcutcount(bamfile=bamfile, chromosome=chromosome, start=1,
-                                         end=end, library=library)
+                                   end=end, library=library)
 
         if dhscut:
 

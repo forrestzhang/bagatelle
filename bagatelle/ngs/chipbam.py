@@ -1,4 +1,4 @@
-from bagatelle import openBam
+from bagatelle.ngs import openBam
 
 
 def chipcount(bamfile, chromosome, start, end, paired=False):

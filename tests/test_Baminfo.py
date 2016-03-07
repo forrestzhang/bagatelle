@@ -1,9 +1,8 @@
 import unittest
-import sys
 from os import path
 
-from bagatelle import Baminfo
-from bagatelle import mhsbam
+from bagatelle.ngs import Baminfo
+from bagatelle.ngs import mhsbam
 
 
 class TestBaminfo(unittest.TestCase):

@@ -1,4 +1,4 @@
-from bagatelle import openBam
+from bagatelle.ngs import openBam
 
 
 def dhcutcount(bamfile, chromosome, start, end, library='Duke'):

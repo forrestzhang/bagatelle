@@ -1,4 +1,4 @@
-from bagatelle import openBam
+from bagatelle.ngs import openBam
 
 
 def mhsmidcount(bamfile, chromosome, start, end, maxinsert=80, mininsert=1, paired=False):

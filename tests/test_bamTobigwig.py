@@ -1,8 +1,7 @@
 import unittest
-import sys
 from os import path
 
-from bagatelle import bamTobigwig
+from bagatelle.ngs import bamTobigwig
 
 
 class TestbamTobigwig(unittest.TestCase):
