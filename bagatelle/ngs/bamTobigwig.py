@@ -170,8 +170,17 @@ def chipmidtobw(bamfile, bwfile, maxinsert=180, mininsert=130, paired=False):
     midtobw(bamfile=bamfile, bwfile=bwfile, maxinsert=maxinsert, mininsert=mininsert, paired=paired)
 
 
-def chiptobw(bamfile, bwfile, maxinsert=180, mininsert=130, paired=False, extend=150):
-
+def chipcvtobw(bamfile, bwfile, maxinsert=180, mininsert=130, paired=False, extend=150):
+    """
+    ChIP coverage to bw file
+    :param bamfile:
+    :param bwfile:
+    :param maxinsert:
+    :param mininsert:
+    :param paired:
+    :param extend:
+    :return:
+    """
     chipbam.chipcoveragetobw(bamfile=bamfile, bwfile=bwfile, maxinsert=maxinsert,
                          mininsert=mininsert, paired=paired, extend=extend)
 
