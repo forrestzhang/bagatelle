@@ -2,7 +2,7 @@ import pyBigWig
 
 from bagatelle.ngs import Baminfo, mhsbam
 from bagatelle.ngs import dhsbam
-
+from bagatelle.ngs import chipbam
 """
 Note: pyBigWig only allow float as values
 """
@@ -168,4 +168,10 @@ def mhsmidtobw(bamfile, bwfile, maxinsert=80, mininsert=1, paired=False):
 def chipmidtobw(bamfile, bwfile, maxinsert=180, mininsert=130, paired=False):
 
     midtobw(bamfile=bamfile, bwfile=bwfile, maxinsert=maxinsert, mininsert=mininsert, paired=paired)
+
+
+def chiptobw(bamfile, bwfile, maxinsert=180, mininsert=130, paired=False, extend=150):
+
+    chipbam.chipcoveragetobw(bamfile=bamfile, bwfile=bwfile, maxinsert=maxinsert,
+                         mininsert=mininsert, paired=paired, extend=extend)
 
