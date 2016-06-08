@@ -286,7 +286,7 @@ def chipcvtobw(bamfile, bwfile, maxinsert=180, mininsert=130, paired=False, exte
                          mininsert=mininsert, paired=paired, extend=extend)
 
 
-def mhsmidkernelsmooth(bamfile, bwfile, maxinsert=80, mininsert=1, paired=False):
+def mhsmidkernelsmooth(bamfile, bwfile, maxinsert=80, mininsert=1, paired=False, kernelsize=30):
 
     bamfor = Baminfo.Baminfo(bamfile)
 
@@ -301,7 +301,7 @@ def mhsmidkernelsmooth(bamfile, bwfile, maxinsert=80, mininsert=1, paired=False)
         mhsmidcount = mhsbam.mhsmidcount(bamfile=bamfile, chromosome=chromosome, start=1,
                                          end=end, maxinsert=maxinsert, mininsert=mininsert, paired=paired)
 
-        mhsmidsmoothed = kernelsmooth(mhsmidcount, 1, end, end, kernelsize=30)
+        mhsmidsmoothed = kernelsmooth(mhsmidcount, 1, end, end, kernelsize)
 
         if mhsmidsmoothed:
 
