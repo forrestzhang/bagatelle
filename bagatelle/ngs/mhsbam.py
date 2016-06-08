@@ -108,3 +108,88 @@ def mhsmidcount(bamfile, chromosome, start, end, maxinsert=80, mininsert=1, pair
                         readscount[middleint2] = 1
 
     return readscount
+
+
+
+def coveragecount(bamfile, chromosome, start, end, maxinsert=80, mininsert=1, paired=False):
+    """
+
+    :param bamfile:
+    :param chromosome:
+    :param start:
+    :param end:
+    :param paired:
+    :return: dictionary of mhs middle site count
+    """
+
+    samfile = openBam.openBam(bamfile)
+
+    readscount = dict()
+
+    if paired:
+
+        for aligened_read in samfile.fetch(reference=str(chromosome), start=start, end=end):
+
+            if aligened_read.is_proper_pair:
+
+                if not aligened_read.is_reverse:
+
+                    if mininsert <= aligened_read.isize <= maxinsert:
+
+                        pair_start = aligened_read.pos
+
+                        for site in range(pair_start, pair_start + aligened_read.isize):
+
+                            if site in readscount:
+
+                                readscount[site] += 1
+
+                            else:
+
+                                readscount[site] = 1
+
+
+    else:
+
+        for alignend_read in samfile.fetch(reference=str(chromosome), start=start, end=end):
+
+            if mininsert <= alignend_read.alen <= maxinsert:
+
+                # if alignend_read.alen % 2 == 0:
+                #
+                #     middle1 = alignend_read.pos + alignend_read.alen / 2
+                #
+                #     middle2 = alignend_read.pos + alignend_read.alen / 2 + 1
+                #
+                # else:
+                #
+                #     middle1 = alignend_read.pos + int(alignend_read.alen / 2)
+                #
+                #     middle2 = alignend_read.pos + int(alignend_read.alen / 2)
+                #
+                #
+                # middleint1 = int(middle1)
+                #
+                # middleint2 = int(middle2)
+                #
+                # if (start <= middleint1 <=end):
+                #
+                #     if middleint1 in readscount:
+                #
+                #         readscount[middleint1] = readscount[middleint1] + 1
+                #
+                #     else:
+                #
+                #          readscount[middleint1] = 1
+                #
+                # if (start <= middleint2 <=end):
+                for site in (alignend_read.pos, alignend_read.pos+alignend_read.alen ):
+                    if site in readscount:
+
+                        readscount[site] = readscount[site] + 1
+
+                    else:
+
+                        readscount[site] = 1
+
+    return readscount
