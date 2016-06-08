@@ -155,35 +155,9 @@ def coveragecount(bamfile, chromosome, start, end, maxinsert=80, mininsert=1, pa
 
             if mininsert <= alignend_read.alen <= maxinsert:
 
-                # if alignend_read.alen % 2 == 0:
-                #
-                #     middle1 = alignend_read.pos + alignend_read.alen / 2
-                #
-                #     middle2 = alignend_read.pos + alignend_read.alen / 2 + 1
-                #
-                # else:
-                #
-                #     middle1 = alignend_read.pos + int(alignend_read.alen / 2)
-                #
-                #     middle2 = alignend_read.pos + int(alignend_read.alen / 2)
-                #
-                #
-                # middleint1 = int(middle1)
-                #
-                # middleint2 = int(middle2)
-                #
-                # if (start <= middleint1 <=end):
-                #
-                #     if middleint1 in readscount:
-                #
-                #         readscount[middleint1] = readscount[middleint1] + 1
-                #
-                #     else:
-                #
-                #          readscount[middleint1] = 1
-                #
-                # if (start <= middleint2 <=end):
-                for site in (alignend_read.pos, alignend_read.pos+alignend_read.alen ):
+
+                for site in range(alignend_read.pos, alignend_read.pos+alignend_read.alen ):
+
                     if site in readscount:
 
                         readscount[site] = readscount[site] + 1
