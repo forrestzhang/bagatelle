@@ -3,6 +3,9 @@ import pyBigWig
 from bagatelle.ngs import Baminfo, mhsbam
 from bagatelle.ngs import dhsbam
 from bagatelle.ngs import chipbam
+from bagatelle.ngs import kernel
+import numpy as np
+
 """
 Note: pyBigWig only allow float as values
 """
@@ -193,6 +196,71 @@ def coveragetobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
     bw.close()
 
 
+
+def kernelsmooth(scorecount, regionstart, regionend, chr_length, kernelsize):
+    """
+
+    :param scorecount: dict
+    :param regionstart:
+    :param regionend:
+    :param sitecount:
+    :param chr_length:
+    :param kernelsize:
+    :return:
+    """
+
+    startsite = regionstart
+
+    endsite = regionend
+
+    regionstart = regionstart - kernelsize * 2
+
+    regionend = regionend + kernelsize * 2
+
+    if regionstart < 1:
+        regionstart = 1
+
+    if regionend > chr_length:
+        regionend = chr_length
+
+    renewlength = regionend - regionstart + 1
+
+    kernelnow = kernel.smooth_kernel(kernelsize)
+
+    readcount = list()
+
+    kernel_score = list()
+
+    for w in sorted(kernelnow):
+        kernel_score.append(kernelnow[w])
+
+    for n in range(regionstart, regionend + 1):
+
+        nowcount = 0
+
+        if n in scorecount:
+            nowcount = scorecount[n]
+
+        readcount.append(nowcount)
+
+    nowsmoothed = np.correlate(np.array(readcount), kernel_score, "same")
+
+    outputscore = dict()
+
+    for j in range(0, renewlength):
+
+        nowsite = j + regionstart
+
+        nowscore = nowsmoothed[j]
+
+        if (startsite <= nowsite <= endsite):
+
+            outputscore[nowsite] = nowscore
+
+    return outputscore
+
+
+
 def mhsmidtobw(bamfile, bwfile, maxinsert=80, mininsert=1, paired=False):
 
     midtobw(bamfile=bamfile, bwfile=bwfile, maxinsert=maxinsert, mininsert=mininsert, paired=paired)
@@ -217,3 +285,36 @@ def chipcvtobw(bamfile, bwfile, maxinsert=180, mininsert=130, paired=False, exte
     chipbam.chipcoveragetobw(bamfile=bamfile, bwfile=bwfile, maxinsert=maxinsert,
                          mininsert=mininsert, paired=paired, extend=extend)
 
+
+def mhsmidkernelsmooth(bamfile, bwfile, maxinsert=80, mininsert=1, paired=False):
+
+    bamfor = Baminfo.Baminfo(bamfile)
+
+    bw = pyBigWig.open(bwfile, "w")
+
+    bw.addHeader(list(bamfor.chrlen.items()))
+
+    for chromosome in bamfor.chrlen:
+
+        end = bamfor.chrlen[chromosome]
+
+        mhsmidcount = mhsbam.mhsmidcount(bamfile=bamfile, chromosome=chromosome, start=1,
+                                         end=end, maxinsert=maxinsert, mininsert=mininsert, paired=paired)
+
+        mhsmidsmoothed = kernelsmooth(mhsmidcount, 1, end, end, kernelsize=30)
+
+        if mhsmidsmoothed:
+
+            starts = list()
+
+            values = list()
+
+            for start in sorted(mhsmidsmoothed):
+                starts.append(start)
+
+                values.append(float(mhsmidsmoothed[start]))
+
+            bw.addEntries(chromosome, starts=starts, values=values,
+                          span=1, step=1)
+
+    bw.close()
