@@ -12,6 +12,7 @@ Note: pyBigWig only allow float as values
 
 def dhstobw(bamfile, bwfile, library='Duke'):
 
+    #Washington is under processing
     """
 
     :param bamfile:
@@ -26,6 +27,8 @@ def dhstobw(bamfile, bwfile, library='Duke'):
         Out put cutting site '|'
     :return:
     """
+
+
 
     bamfor = Baminfo.Baminfo(bamfile)
 
@@ -318,3 +321,39 @@ def mhsmidkernelsmooth(bamfile, bwfile, maxinsert=80, mininsert=1, paired=False,
                           span=1, step=1)
 
     bw.close()
+
+
+def dhscutkernelsmooth(bamfile, bwfile, library='Duke', kernelsize=200):
+
+    bamfor = Baminfo.Baminfo(bamfile)
+
+    bw = pyBigWig.open(bwfile, "w")
+
+    bw.addHeader(list(bamfor.chrlen.items()))
+
+    for chromosome in bamfor.chrlen:
+
+        end = bamfor.chrlen[chromosome]
+
+        dhscut = dhsbam.dhcutcount(bamfile=bamfile, chromosome=chromosome, start=1,
+                                   end=end, library=library)
+
+        dhscutsmoothed = kernelsmooth(dhscut, 1, end, end, kernelsize)
+
+        if dhscutsmoothed:
+
+            starts = list()
+
+            values = list()
+
+            for start in sorted(dhscutsmoothed):
+
+                starts.append(start)
+
+                values.append(float(dhscutsmoothed[start]))
+
+            bw.addEntries(chromosome, starts=starts, values=values,
+                          span=1, step=1)
+
+    bw.close()
+
