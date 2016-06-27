@@ -219,7 +219,7 @@ def dhextendtobw(bamfile,bwfile, extendsize=20, library='Duke'):
 
             starts.append(nowsite)
 
-            values.append(nowsite[nowsite])
+            values.append(dhsext[nowsite])
 
         bw.addEntries(chromosome, starts=starts, values=values,
                           span=1, step=1)
