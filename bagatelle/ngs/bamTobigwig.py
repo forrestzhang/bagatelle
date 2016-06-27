@@ -133,6 +133,103 @@ def dhsstrandtobw(bamfile,rbwfile, fbwfile, library='Duke', nagtiverev=True):
     bwr.close()
 
 
+def dhextendtobw(bamfile,bwfile, extendsize=20, library='Duke'):
+
+    """
+
+    :param bamfile:
+    :param bwfile:
+    :param library:Duke or Washington
+
+        Duke: |=====>
+                        <=====|
+
+        Washington: |===========|
+
+        Out put cutting site '|'
+    :param nagtiverev: - Strand use nagative score
+    :return:
+    """
+
+    bamfor = Baminfo.Baminfo(bamfile)
+
+    bw = pyBigWig.open(bwfile, "w")
+
+    bw.addHeader(list(bamfor.chrlen.items()))
+
+
+
+    for chromosome in bamfor.chrlen:
+
+        end = bamfor.chrlen[chromosome]
+
+        dhscut = dhsbam.dhstrandcutcount(bamfile=bamfile, chromosome=chromosome, start=1,
+                                         end=end, library=library)
+
+        dhsext = dict()
+
+        if dhscut['+']:
+
+            # starts = list()
+            #
+            # values = list()
+
+            for start in sorted(dhscut['+']):
+
+                # starts.append(start)
+                #
+                # values.append(float(dhscut['+'][start]))
+                for i in range(0,extendsize):
+
+                    nowsite = start+i
+
+                    if 0 < nowsite < end:
+
+                        if nowsite in dhsext:
+                            dhsext[nowsite] += float(dhscut['+'][start])
+                        else:
+                            dhsext[nowsite] = float(dhscut['+'][start])
+
+
+
+        if dhscut['-']:
+
+            starts = list()
+
+            values = list()
+
+            for start in sorted(dhscut['-']):
+
+                for i in range(0-extendsize, 0):
+                    nowsite = start + i
+
+                    if 0 < nowsite < end:
+
+                        if nowsite in dhsext:
+
+                            dhsext[nowsite] += float(dhscut['-'][start])
+                        else:
+                            dhsext[nowsite] = float(dhscut['-'][start])
+
+        starts = list()
+
+        values = list()
+
+        for nowsite in sorted(dhsext):
+
+            starts.append(nowsite)
+
+            values.append(nowsite[nowsite])
+
+        bw.addEntries(chromosome, starts=starts, values=values,
+                          span=1, step=1)
+
+    bw.close()
+
+
+
+
+
 def midtobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
 
     bamfor = Baminfo.Baminfo(bamfile)
