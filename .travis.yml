@@ -12,6 +12,7 @@ addons:
 
 install:
   - pip install -r requirements.txt
+  - pip install .
 
 before_script:
   - cd tests
