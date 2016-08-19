@@ -18,6 +18,6 @@ before_script:
   - cd tests
 
 script:
-  python test_Baminfo.py
-  python test_bamTobigwig.py
-  python test_regioncount.py
+  - python test_Baminfo.py
+  - python test_bamTobigwig.py
+  - python test_regioncount.py
