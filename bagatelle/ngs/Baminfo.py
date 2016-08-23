@@ -30,8 +30,8 @@ class Baminfo:
         return chrlen
 
 
-if __name__ == '__main__':
-
-    baminfo = Bamfile('../tests/inputfile/npstest.bam')
-
-    print()
+# if __name__ == '__main__':
+#
+#     baminfo = Bamfile('../tests/inputfile/npstest.bam')
+#
+#     print()
