@@ -12,12 +12,14 @@ addons:
 
 install:
   - pip install -r requirements.txt
+  - pip install -U pytest pytest-cov coverage codecov sphinx
   - python setup.py install
 
 before_script:
   - cd tests
 
 script:
-  - python test_Baminfo.py
-  - python test_bamTobigwig.py
-  - python test_regioncount.py
+  - py.test --cov=./
+#  - python test_Baminfo.py
+#  - python test_bamTobigwig.py
+#  - python test_regioncount.py
