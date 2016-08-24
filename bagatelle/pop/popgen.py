@@ -91,6 +91,7 @@ def _tajimad(piscore, segsite, n):
 def tajimaD(datafram):
     """
     :param datafram: pandas datafram
+    :type datafram: pandas dataframe
 
      +------+----+----+----+----+
      |index |sp1 |sp2 |sp3 |sp4 |
@@ -105,7 +106,7 @@ def tajimaD(datafram):
      +------+----+----+----+----+
 
     :return: Tajima's D
-
+    :rtype: float
     """
     try:
 
@@ -158,6 +159,7 @@ def tajimaworker(par):
 def Fst_region(datafram, subpopulationlist):
     """
     :param datafram: pandas dataframe
+    :type datafram: Pandas dataframe
 
      +------+----+----+----+----+
      |index |sp1 |sp2 |sp3 |sp4 |
@@ -171,8 +173,11 @@ def Fst_region(datafram, subpopulationlist):
      |  4   |A   |A   |A   |A   |
      +------+----+----+----+----+
 
+
     :param subpopulationlist: colnames list of subpopulation in panda dataframe ['sp1','sp2']
+    :type subpopulationlist: list
     :return: Fst
+    :rtype: float
     """
     pis = _pi(datafram[subpopulationlist])
 

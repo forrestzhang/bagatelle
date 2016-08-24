@@ -7,6 +7,7 @@ API Documentation
 .. autosummary::
     :toctree: generated
 
+    bagatelle.ngs.Baminfo
     bagatelle.ngs.regioncount
     bagatelle.ngs.chipbam
     bagatelle.pop.popgen
