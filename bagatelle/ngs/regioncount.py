@@ -23,8 +23,7 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
     Given bed file and bw file count score in flanking region of bed middle site(s)
 
-              up                mid                   down
-    ==========*=================|======================*===========
+    ==========up=================mid======================down===========
 
     """
 
