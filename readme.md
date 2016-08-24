@@ -1,1 +1,1 @@
-[![Build Status](https://travis-ci.org/forrestzhang/bagatelle.svg?branch=master)](https://travis-ci.org/forrestzhang/bagatelle)
+[![Build Status](https://travis-ci.org/forrestzhang/bagatelle.svg?branch=master)](https://travis-ci.org/forrestzhang/bagatelle) [![codecov](https://codecov.io/gh/forrestzhang/bagatelle/branch/master/graph/badge.svg)](https://codecov.io/gh/forrestzhang/bagatelle)
