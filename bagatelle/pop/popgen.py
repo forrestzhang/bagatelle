@@ -91,11 +91,19 @@ def _tajimad(piscore, segsite, n):
 def tajimaD(datafram):
     """
     :param datafram: pandas datafram
-     index sp1 sp2 sp3 sp4
-        1   A   A   A   T
-        2   A   C   A   A
-        3   A   C   C   G
-        4   A   A   A   A
+
+     +------+----+----+----+----+
+     |index |sp1 |sp2 |sp3 |sp4 |
+     +======+====+====+====+====+
+     |  1   |A   |A   |A   |T   |
+     +------+----+----+----+----+
+     | 2    |A   |C   |A   |A   |
+     +------+----+----+----+----+
+     |  3   |A   |C   |C   |G   |
+     +------+----+----+----+----+
+     |  4   |A   |A   |A   |A   |
+     +------+----+----+----+----+
+
     :return: Tajima's D
 
     """
@@ -149,14 +157,21 @@ def tajimaworker(par):
 
 def Fst_region(datafram, subpopulationlist):
     """
-    :param datafram: panda dataframe
-      index sp1 sp2 sp3 sp4
-        1   A   A   A   T
-        2   A   C   A   A
-        3   A   C   C   G
-        4   A   A   A   A
-    :param subpopulationlist: colnames list of subpopulation in panda dataframe
-        ['sp1','sp2']
+    :param datafram: pandas dataframe
+
+     +------+----+----+----+----+
+     |index |sp1 |sp2 |sp3 |sp4 |
+     +======+====+====+====+====+
+     |  1   |A   |A   |A   |T   |
+     +------+----+----+----+----+
+     | 2    |A   |C   |A   |A   |
+     +------+----+----+----+----+
+     |  3   |A   |C   |C   |G   |
+     +------+----+----+----+----+
+     |  4   |A   |A   |A   |A   |
+     +------+----+----+----+----+
+
+    :param subpopulationlist: colnames list of subpopulation in panda dataframe ['sp1','sp2']
     :return: Fst
     """
     pis = _pi(datafram[subpopulationlist])
