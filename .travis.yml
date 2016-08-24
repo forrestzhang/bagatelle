@@ -23,3 +23,6 @@ script:
 #  - python test_Baminfo.py
 #  - python test_bamTobigwig.py
 #  - python test_regioncount.py
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
