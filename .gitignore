@@ -65,3 +65,5 @@ tests/inputfile/npstest.bw
 # Created by .ignore support plugin (hsz.mobi)
 MANIFEST
 
+docs/_static/
+docs/_templates/
