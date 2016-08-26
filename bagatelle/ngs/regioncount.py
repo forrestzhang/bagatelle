@@ -6,10 +6,10 @@ import os
 # count score up and down stream of middlesite or region
 import math
 
+
 def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
              maxfilter=9999999999, minfilter=0, stranded=False,
              nantozero=True, outfile="midcount.txt", gziped=True):
-
     """
     :param bwfile: bigwig file
     :param bedfile: bed file of peak/hotspots
@@ -33,7 +33,7 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
     if gziped:
 
-        gzfile = outfile+'.gz'
+        gzfile = outfile + '.gz'
 
         socorefile = gzip.open(gzfile, 'w')
 
@@ -42,11 +42,10 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
     header = list()
 
-    for j in range(0-up, down+1, winsize):
-
+    for j in range(0 - up, down + 1, winsize):
         header.append(str(j))
 
-    headerstring = 'chromosome' + "\t"+'start'+"\t"+'end'+"\t"+"\t".join(header)+'\n'
+    headerstring = 'chromosome' + "\t" + 'start' + "\t" + 'end' + "\t" + "\t".join(header) + '\n'
 
     if gziped:
         socorefile.write(headerstring.encode('ascii'))
@@ -56,7 +55,7 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
     chrlen = bw.chroms()
 
     # print(chrlen)
-    nbins = int((up+down)/winsize+1)
+    nbins = int((up + down) / winsize + 1)
 
     for bed in bedio.readlines():
 
@@ -70,20 +69,18 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         end = int(bedinfor[2])
 
-        midsite = int((start + end)/2)
+        midsite = int((start + end) / 2)
 
         ctregionstart = midsite - up - 1
 
         ctregionend = midsite + down
 
-        if ctregionstart < 0 :
-
+        if ctregionstart < 0:
             print("%d is too close to %s start %d" % (start, chromosome, chrlen[chromosome]))
 
             continue
 
         if ctregionend > chrlen[chromosome]:
-
             print("%d is too close to %s end %d" % (end, chromosome, chrlen[chromosome]))
             # print(chromosome, start, end,  ctregionstart, ctregionend, )
             continue
@@ -106,33 +103,26 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
             else:
                 if i < minfilter:
-
                     i = minfilter
 
                 if i > maxfilter:
-
                     i = maxfilter
 
             scorelist.append(str(i))
 
-
-
         if stranded:
             # Reverse - strand score
             if bedinfor[5] == '-':
-
                 scorelist = reversed(scorelist)
-
 
         # print(chromosome, start, end, "\t".join(scorelist), sep='\t', file=socorefile)
 
-        resultstring = chromosome+ '\t' + str(start) + '\t' + str(end) + '\t' +'\t'.join(scorelist)+"\n"
+        resultstring = chromosome + '\t' + str(start) + '\t' + str(end) + '\t' + '\t'.join(scorelist) + "\n"
 
         if gziped:
-                socorefile.write(resultstring.encode('ascii'))
+            socorefile.write(resultstring.encode('ascii'))
         else:
-                socorefile.write(resultstring)
-
+            socorefile.write(resultstring)
 
     bedio.close()
 
@@ -142,9 +132,8 @@ def midcount(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
 
 def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
-             maxfilter=9999999999, minfilter=0, stranded=False,
-             nantozero=True, outfile="midcount.txt",threads=2, gziped=True):
-
+               maxfilter=9999999999, minfilter=0, stranded=False,
+               nantozero=True, outfile="midcount.txt", threads=2, gziped=True):
     """
 
     :param bwfile:
@@ -170,7 +159,7 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
     if gziped:
 
-        gzfile = outfile+'.gz'
+        gzfile = outfile + '.gz'
 
         socorefile = gzip.open(gzfile, 'w')
 
@@ -179,11 +168,10 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
     header = list()
 
-    for j in range(0-up, down+1, winsize):
-
+    for j in range(0 - up, down + 1, winsize):
         header.append(str(j))
 
-    headerstring = 'chromosome' + "\t"+'start'+"\t"+'end'+"\t"+"\t".join(header)+'\n'
+    headerstring = 'chromosome' + "\t" + 'start' + "\t" + 'end' + "\t" + "\t".join(header) + '\n'
 
     if gziped:
         socorefile.write(headerstring.encode('ascii'))
@@ -192,12 +180,11 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
     workerlist = list()
 
-    nbins = int((up+down)/winsize+1)
+    nbins = int((up + down) / winsize + 1)
 
     chrlen = bw.chroms()
 
     for worker in range(0, threads):
-
         workerinfor = dict()
 
         workerinfor['reglist'] = list()
@@ -230,29 +217,26 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
         end = int(bedinfor[2])
 
-        midsite = int((start + end)/2)
+        midsite = int((start + end) / 2)
 
         ctregionstart = midsite - up - 1
 
         ctregionend = midsite + down
 
-        if ctregionstart < 0 :
-
+        if ctregionstart < 0:
             print("%d is too close to %s start %d" % (start, chromosome, chrlen[chromosome]))
 
             continue
 
         if ctregionend > chrlen[chromosome]:
-
             print("%d is too close to %s end %d" % (end, chromosome, chrlen[chromosome]))
             # print(chromosome, start, end,  ctregionstart, ctregionend, )
             continue
 
-        reg = chromosome+"_"+str(ctregionstart) + "_" + str(ctregionend)
+        reg = chromosome + "_" + str(ctregionstart) + "_" + str(ctregionend)
 
         if stranded:
-
-            reg = reg+'_'+bedinfor[5]
+            reg = reg + '_' + bedinfor[5]
 
         nowth = nowworker % threads
 
@@ -282,10 +266,9 @@ def midcountmp(bwfile, bedfile, up=1000, down=1000, winsize=50,
 
 
 def midcountworker(workerinfor):
-
     nbins = workerinfor['nbins']
 
-    minfilter =workerinfor['minfilter']
+    minfilter = workerinfor['minfilter']
 
     maxfilter = workerinfor['maxfilter']
 
@@ -301,7 +284,7 @@ def midcountworker(workerinfor):
 
         regioninfo = region.split("_")
 
-        if (int(regioninfo[2]) - int(regioninfo[1]) ) == nbins:
+        if (int(regioninfo[2]) - int(regioninfo[1])) == nbins:
 
             # print("1bp")
             socorelist1 = bw.values(regioninfo[0], int(regioninfo[1]), int(regioninfo[2]))
@@ -334,11 +317,9 @@ def midcountworker(workerinfor):
 
             else:
                 if i < minfilter:
-
                     i = minfilter
 
                 if i > maxfilter:
-
                     i = maxfilter
 
             scorelist.append(str(i))
@@ -346,10 +327,9 @@ def midcountworker(workerinfor):
         if stranded:
             # Reverse - strand score
             if regioninfo[3] == '-':
-
                 scorelist = reversed(scorelist)
 
-        scorestring = '\t'.join(regioninfo[0:3]) + '\t' +'\t'.join(scorelist)
+        scorestring = '\t'.join(regioninfo[0:3]) + '\t' + '\t'.join(scorelist)
 
         result.append(scorestring)
 

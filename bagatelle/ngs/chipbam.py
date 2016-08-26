@@ -3,6 +3,7 @@ import pyBigWig
 from bagatelle.ngs import openBam
 from bagatelle.ngs import Baminfo
 
+
 def chipcount(bamfile, bwfile, maxinsert=180, mininsert=130, paired=False, extend=150):
     """
     :param bamfile:
@@ -28,7 +29,6 @@ def chipcount(bamfile, bwfile, maxinsert=180, mininsert=130, paired=False, exten
     return readscount
 
 
-
 def chipcoverage(bamfile, chromosome, start, end, maxinsert=180, mininsert=130, paired=False, extend=150):
     """
     :param bamfile:
@@ -43,7 +43,6 @@ def chipcoverage(bamfile, chromosome, start, end, maxinsert=180, mininsert=130, 
 
     readscount = dict()
 
-
     if paired:
 
         for aligened_read in samfile.fetch(reference=str(chromosome), start=start, end=end):
@@ -56,7 +55,7 @@ def chipcoverage(bamfile, chromosome, start, end, maxinsert=180, mininsert=130, 
 
                         pair_start = aligened_read.pos
 
-                        for i in range(pair_start, pair_start+aligened_read.isize):
+                        for i in range(pair_start, pair_start + aligened_read.isize):
 
                             if start <= i <= end:
 
@@ -72,7 +71,7 @@ def chipcoverage(bamfile, chromosome, start, end, maxinsert=180, mininsert=130, 
 
         for alignend_read in samfile.fetch(reference=str(chromosome), start=start, end=end):
 
-            for i in range(alignend_read.pos, alignend_read.pos+extend):
+            for i in range(alignend_read.pos, alignend_read.pos + extend):
 
                 if start <= i <= end:
 
@@ -88,8 +87,7 @@ def chipcoverage(bamfile, chromosome, start, end, maxinsert=180, mininsert=130, 
 
 
 def chipcoveragetobw(bamfile, bwfile, maxinsert,
-                         mininsert, paired, extend):
-
+                     mininsert, paired, extend):
     bamfor = Baminfo.Baminfo(bamfile)
 
     bw = pyBigWig.open(bwfile, "w")
@@ -111,7 +109,6 @@ def chipcoveragetobw(bamfile, bwfile, maxinsert,
             values = list()
 
             for start in sorted(chipcount):
-
                 starts.append(start)
 
                 values.append(float(chipcount[start]))

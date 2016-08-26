@@ -57,7 +57,6 @@ def dhcutcount(bamfile, chromosome, start, end, library='Duke'):
     return readscount
 
 
-
 def dhstrandcutcount(bamfile, chromosome, start, end, library='Duke'):
     """
 
@@ -126,6 +125,5 @@ def dhstrandcutcount(bamfile, chromosome, start, end, library='Duke'):
     else:
 
         pass
-
 
     return readscount

@@ -4,7 +4,6 @@ import os.path
 
 
 def openBam(bamFile):
-
     try:
         bam = pysam.Samfile(bamFile, 'rb')
 
@@ -20,11 +19,11 @@ def openBam(bamFile):
 
         if 'check_index' in dir(bam):
 
-            assert(bam.check_index())
+            assert (bam.check_index())
 
         else:
             # The proper check_index() function wasn't implemented until pysam 0.8.4!
-            assert(bam._hasIndex())
+            assert (bam._hasIndex())
 
     except:
 

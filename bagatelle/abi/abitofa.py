@@ -4,13 +4,11 @@ import os.path
 
 
 def abitofa(abifile, fafile):
-
     inio = open(abifile, 'rb')
 
     outio = open(fafile, 'w')
 
     for record in SeqIO.parse(inio, 'abi'):
-
         SeqIO.write(record, outio, "fasta")
 
     inio.close()
@@ -19,10 +17,9 @@ def abitofa(abifile, fafile):
 
 
 def abidirtofa(abidir, fafile, ender="ab1"):
-
     abidir = os.path.dirname(abidir)
 
-    searcher = abidir+"/*"+ender
+    searcher = abidir + "/*" + ender
 
     abifiles = glob.glob(searcher)
 
@@ -35,7 +32,6 @@ def abidirtofa(abidir, fafile, ender="ab1"):
         inio = open(abifile, 'rb')
 
         for record in SeqIO.parse(inio, 'abi'):
-
             SeqIO.write(record, outio, "fasta")
 
         inio.close()

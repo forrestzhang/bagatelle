@@ -1,5 +1,3 @@
-
-
 from optparse import OptionParser
 import pybedtools
 import logging
@@ -9,8 +7,8 @@ import pprint
 from BCBio.GFF import GFFExaminer
 from collections import defaultdict
 
-def main():
 
+def main():
     opt = opt_check(get_optparser())
 
     gfffile = opt.gfffile
@@ -31,14 +29,13 @@ def main():
 
     openBED = open(bedfile, 'r')
 
-    summitbedoutfile = "summit"+bedfile
+    summitbedoutfile = "summit" + bedfile
 
-    bedoutio = open(summitbedoutfile,'w')
+    bedoutio = open(summitbedoutfile, 'w')
 
     for line in openBED:
 
         if line.startswith("#"):
-
             continue
 
         strings = line.strip().split("\t")
@@ -49,11 +46,11 @@ def main():
 
         peakend = int(strings[2])
 
-        mid1 = int((peakstart + peakend)/2)
+        mid1 = int((peakstart + peakend) / 2)
 
-        mid2 = int((peakstart + peakend)/2)
+        mid2 = int((peakstart + peakend) / 2)
 
-        print (peakchromosome,mid1,mid2, sep="\t", file=bedoutio)
+        print(peakchromosome, mid1, mid2, sep="\t", file=bedoutio)
 
     bedoutio.close()
 
@@ -69,7 +66,6 @@ def main():
         featuretype = gffinf[2]
 
         if "Parent" not in attrs:
-
             featurenoparent[featuretype] = 1
 
         if featuretype in gffd:
@@ -81,7 +77,6 @@ def main():
             gffd[featuretype] = 1
 
         if "Derives_from" in attrs:
-
             derivesfeature[featuretype] = 1
             # print (featuretype)
     #
@@ -103,26 +98,21 @@ def main():
 
             lin = lin.rstrip('\n')
 
-            (typenow,inf) = lin.split(':')
+            (typenow, inf) = lin.split(':')
 
             if typenow == 'updown':
-
                 updown = inf.split(',')
 
             if typenow == 'overlap':
-
                 overlap = inf.split(',')
 
             if typenow == 'skip':
-
                 skip = inf.split(',')
 
             if typenow == 'other':
-
                 other = inf.split(',')
 
             if typenow == 'makeintron':
-
                 mkintron = inf
 
 
@@ -132,15 +122,15 @@ def main():
 
             while True:
 
-                print ("#"*36)
+                print("#" * 36)
 
-                print ("Find ",featuretype, gffd[featuretype],"in genome")
+                print("Find ", featuretype, gffd[featuretype], "in genome")
 
-                print ("please choose model: \n"
-                       "1) calculate up and downstream, \n"
-                       "2) overlap, \n"
-                       "3) skip, \n"
-                       "4) count this type as other")
+                print("please choose model: \n"
+                      "1) calculate up and downstream, \n"
+                      "2) overlap, \n"
+                      "3) skip, \n"
+                      "4) count this type as other")
 
                 if featuretype == 'chromosome':
 
@@ -155,10 +145,10 @@ def main():
                     choose = eval(input("suggest 1: ")) or 1
 
                 elif featuretype in ['exon',
-                              'CDS',
-                              'intron',
-                              'five_prime_UTR',
-                              'three_prime_UTR']:
+                                     'CDS',
+                                     'intron',
+                                     'five_prime_UTR',
+                                     'three_prime_UTR']:
 
                     choose = eval(input("suggest 2: ")) or 2
 
@@ -174,9 +164,9 @@ def main():
 
                     updown.append(featuretype)
 
-                    print (featuretype, "calculate up and downstream")
+                    print(featuretype, "calculate up and downstream")
 
-                    print ()
+                    print()
 
                     break
 
@@ -184,9 +174,9 @@ def main():
 
                     overlap.append(featuretype)
 
-                    print (featuretype, "overlap")
+                    print(featuretype, "overlap")
 
-                    print ()
+                    print()
 
                     break
 
@@ -194,9 +184,9 @@ def main():
 
                     skip.append(featuretype)
 
-                    print (featuretype, "skip this featuretype")
+                    print(featuretype, "skip this featuretype")
 
-                    print ()
+                    print()
 
                     break
 
@@ -204,17 +194,17 @@ def main():
 
                     other.append(featuretype)
 
-                    print (featuretype, " count this featuretype as other")
+                    print(featuretype, " count this featuretype as other")
 
-                    print ()
+                    print()
 
                     break
 
                 else:
 
-                    print ("Please input 1,2,3,4 model")
+                    print("Please input 1,2,3,4 model")
 
-                    print ()
+                    print()
 
     if not mkintron:
 
@@ -222,17 +212,17 @@ def main():
 
             while True:
 
-                print ("Do not find intron annotation, suggest make intron annotation. y(es) or n(o)")
+                print("Do not find intron annotation, suggest make intron annotation. y(es) or n(o)")
 
                 intronyes = eval(input("suggest yes: ")) or 'yes'
 
-                if intronyes=='yes' or intronyes=='y':
+                if intronyes == 'yes' or intronyes == 'y':
 
                     mkintron = True
 
                     break
 
-                elif intronyes=='no' or intronyes=='n':
+                elif intronyes == 'no' or intronyes == 'n':
 
                     mkintron = False
 
@@ -242,17 +232,15 @@ def main():
 
                     continue
 
-    updonwfile = gfffile+"updown"
+    updonwfile = gfffile + "updown"
 
+    updownio = open(updonwfile, 'w')
 
-    updownio = open(updonwfile,'w')
-
-    gffinio = open(gfffile,'r')
+    gffinio = open(gfffile, 'r')
 
     for line in gffinio:
 
         if line.startswith("#"):
-
             continue
 
         line = line.rstrip('\n')
@@ -260,29 +248,27 @@ def main():
         linecontain = line.split("\t")
 
         if linecontain[2] in updown:
-
-            print (line, file=updownio)
+            print(line, file=updownio)
 
     updownio.close()
 
     if mkintron:
 
-        gffinio1 = open(gfffile,'r')
+        gffinio1 = open(gfffile, 'r')
 
-        print ("make intron file")
+        print("make intron file")
 
-        nointronfile = gfffile+"notinron"
+        nointronfile = gfffile + "notinron"
 
-        genefile = gfffile+"gene"
+        genefile = gfffile + "gene"
 
-        nointronio = open(nointronfile,'w')
+        nointronio = open(nointronfile, 'w')
 
-        geneio = open(genefile,'w')
+        geneio = open(genefile, 'w')
 
         for line in gffinio1:
 
             if line.startswith("#"):
-
                 continue
 
             line = line.rstrip('\n')
@@ -290,15 +276,13 @@ def main():
             linecontain = line.split("\t")
 
             if linecontain[2] in ['exon',
-                          'CDS',
-                          'five_prime_UTR',
-                          'three_prime_UTR']:
-
-                print (line, file=nointronio)
+                                  'CDS',
+                                  'five_prime_UTR',
+                                  'three_prime_UTR']:
+                print(line, file=nointronio)
 
             if linecontain[2] in ['gene']:
-
-                print (line, file=geneio)
+                print(line, file=geneio)
 
         genefn = pybedtools.BedTool(genefile)
 
@@ -310,22 +294,21 @@ def main():
 
         # intronfile = gfffile+"intron"
 
-        intronin = open('tmp_intron.gff','r')
+        intronin = open('tmp_intron.gff', 'r')
 
         # intronout = open (intronfile, 'w')
 
 
 
-        gffinio2 = open(gfffile,'r')
+        gffinio2 = open(gfffile, 'r')
 
-        overlapfile = gfffile+"overlap"
+        overlapfile = gfffile + "overlap"
 
         overlapio = open(overlapfile, 'w')
 
         for line in gffinio2:
 
             if line.startswith("#"):
-
                 continue
 
             line = line.rstrip('\n')
@@ -333,24 +316,20 @@ def main():
             linecontain = line.split("\t")
 
             if linecontain[2] in overlap:
-
-                print (line,file=overlapio)
+                print(line, file=overlapio)
 
             if linecontain[2] in updown:
-
-                print (line, file=overlapio)
+                print(line, file=overlapio)
 
             if linecontain[2] in other:
-
-                print (line, file=overlapio)
+                print(line, file=overlapio)
 
         for line in intronin:
-
             line = line.rstrip('\n')
 
             b = line.replace('\tgene\t', '\tintron\t')
 
-            print (b, file=overlapio)
+            print(b, file=overlapio)
 
         overlapio.close()
 
@@ -364,17 +343,15 @@ def main():
 
     else:
 
+        gffinio2 = open(gfffile, 'r')
 
-        gffinio2 = open(gfffile,'r')
-
-        overlapfile = gfffile+"overlap"
+        overlapfile = gfffile + "overlap"
 
         overlapio = open(overlapfile, 'w')
 
         for line in gffinio2:
 
             if line.startswith("#"):
-
                 continue
 
             line = line.rstrip('\n')
@@ -382,26 +359,23 @@ def main():
             linecontain = line.split("\t")
 
             if linecontain[2] in overlap:
-
-                print (line, file=overlapio)
+                print(line, file=overlapio)
 
             if linecontain[2] in updown:
-
-                print (line, file=overlapio)
+                print(line, file=overlapio)
 
             if linecontain[2] in other:
-
-                print (line, file=overlapio)
+                print(line, file=overlapio)
 
         overlapio.close()
 
-    print ("updown", updown, file=outio)
+    print("updown", updown, file=outio)
 
-    print ("overlap", overlap, file=outio)
+    print("overlap", overlap, file=outio)
 
-    print ("skip", skip, file=outio)
+    print("skip", skip, file=outio)
 
-    print ("other", other, file=outio)
+    print("other", other, file=outio)
 
     overlapfn = pybedtools.BedTool(overlapfile).sort()
 
@@ -413,7 +387,7 @@ def main():
 
     intergenic_summitfn.saveas("intergenic_summitfn.txt")
 
-    nearbyfn =intergenic_summitfn.closest(updownfn, d=True, stream=True)
+    nearbyfn = intergenic_summitfn.closest(updownfn, d=True, stream=True)
 
     # nearbyfn.saveas("nearby.txt")
 
@@ -447,7 +421,7 @@ def main():
             # print ("other")
 
         elif featuretype in skip:
-            print (featuretype,"skip")
+            print(featuretype, "skip")
             # d[key].update(['.'])
             continue
 
@@ -487,58 +461,55 @@ def main():
     nearpeakd = defaultdict(set)
 
     for nearpeak in nearbyfn:
-        #Chr,peakstart, peakend, genechr,genestart,geneend, genestrand
-        #print (nearpeak[0],nearpeak[1], nearpeak[2],nearpeak[bedfields], nearpeak[bedfields+3],nearpeak[bedfields+4],nearpeak[bedfields+6])
+        # Chr,peakstart, peakend, genechr,genestart,geneend, genestrand
+        # print (nearpeak[0],nearpeak[1], nearpeak[2],nearpeak[bedfields], nearpeak[bedfields+3],nearpeak[bedfields+4],nearpeak[bedfields+6])
 
         peakkey = '\t'.join(nearpeak[:bedfields])
 
         if peakkey in d:
-
             continue
 
-        genestrand = nearpeak[bedfields+6]
+        genestrand = nearpeak[bedfields + 6]
 
         distance = int(nearpeak[-1])
 
         typenow = 'error'
 
         if distance == 0:
-
             continue
 
-        if int(nearpeak[bedfields+3]) <= int(nearpeak[1]) <= int(nearpeak[2]) <= int(nearpeak[bedfields+4]):
+        if int(nearpeak[bedfields + 3]) <= int(nearpeak[1]) <= int(nearpeak[2]) <= int(nearpeak[bedfields + 4]):
+            print("error")
 
-            print ("error")
-
-            print (nearpeak[0],nearpeak[1], nearpeak[2],nearpeak[bedfields], nearpeak[bedfields+3],nearpeak[bedfields+4],nearpeak[bedfields+6])
-
+            print(nearpeak[0], nearpeak[1], nearpeak[2], nearpeak[bedfields], nearpeak[bedfields + 3],
+                  nearpeak[bedfields + 4], nearpeak[bedfields + 6])
 
         if genestrand == '+':
 
-            if int(nearpeak[1]) >= int(nearpeak[bedfields+4]):
+            if int(nearpeak[1]) >= int(nearpeak[bedfields + 4]):
 
-                #typenow = 'downstrand'
+                # typenow = 'downstrand'
                 if distance <= 1000:
 
-                    typenow = nearpeak[bedfields+2]+"_"+'TTS_1000'
+                    typenow = nearpeak[bedfields + 2] + "_" + 'TTS_1000'
 
                 elif distance <= 3000:
 
-                    typenow = nearpeak[bedfields+2]+"_"+'TTS_3000'
+                    typenow = nearpeak[bedfields + 2] + "_" + 'TTS_3000'
 
                 else:
 
                     typenow = 'intergentic'
 
-            elif int(nearpeak[2]) <= int(nearpeak[bedfields+3]):
+            elif int(nearpeak[2]) <= int(nearpeak[bedfields + 3]):
 
                 if distance <= 1000:
 
-                    typenow = nearpeak[bedfields+2]+"_"+'TSS_1000'
+                    typenow = nearpeak[bedfields + 2] + "_" + 'TSS_1000'
 
                 elif distance <= 3000:
 
-                    typenow = nearpeak[bedfields+2]+"_"+'TSS_3000'
+                    typenow = nearpeak[bedfields + 2] + "_" + 'TSS_3000'
 
                 else:
 
@@ -546,85 +517,79 @@ def main():
 
             else:
 
-                print ("error", nearpeak[0],nearpeak[1], nearpeak[2],nearpeak[bedfields], nearpeak[bedfields+3],nearpeak[bedfields+4],nearpeak[bedfields+6])
+                print("error", nearpeak[0], nearpeak[1], nearpeak[2], nearpeak[bedfields], nearpeak[bedfields + 3],
+                      nearpeak[bedfields + 4], nearpeak[bedfields + 6])
 
         elif genestrand == '-':
 
-            if int(nearpeak[1]) >= int(nearpeak[bedfields+4]):
+            if int(nearpeak[1]) >= int(nearpeak[bedfields + 4]):
 
-                #typenow = 'downstrand'
+                # typenow = 'downstrand'
                 if distance <= 1000:
 
-                    typenow = nearpeak[bedfields+2]+"_"+'TSS_1000'
+                    typenow = nearpeak[bedfields + 2] + "_" + 'TSS_1000'
 
                 elif distance <= 3000:
 
-                    typenow = nearpeak[bedfields+2]+"_"+'TSS_3000'
+                    typenow = nearpeak[bedfields + 2] + "_" + 'TSS_3000'
 
                 else:
 
                     typenow = 'intergentic'
 
-            elif int(nearpeak[2]) <= int(nearpeak[bedfields+3]):
+            elif int(nearpeak[2]) <= int(nearpeak[bedfields + 3]):
 
                 if distance <= 1000:
 
-                    typenow = nearpeak[bedfields+2]+"_"+'TTS_1000'
+                    typenow = nearpeak[bedfields + 2] + "_" + 'TTS_1000'
 
                 elif distance <= 3000:
 
-                    typenow = nearpeak[bedfields+2]+"_"+'TTS_3000'
+                    typenow = nearpeak[bedfields + 2] + "_" + 'TTS_3000'
 
                 else:
 
                     typenow = 'intergentic'
             else:
 
-                print ("error", nearpeak[0],nearpeak[1], nearpeak[2],nearpeak[bedfields], nearpeak[bedfields+3],nearpeak[bedfields+4],nearpeak[bedfields+6])
+                print("error", nearpeak[0], nearpeak[1], nearpeak[2], nearpeak[bedfields], nearpeak[bedfields + 3],
+                      nearpeak[bedfields + 4], nearpeak[bedfields + 6])
         else:
 
-            print ("error", nearpeak[0],nearpeak[1], nearpeak[2],nearpeak[bedfields], nearpeak[bedfields+3],nearpeak[bedfields+4],nearpeak[bedfields+6])
+            print("error", nearpeak[0], nearpeak[1], nearpeak[2], nearpeak[bedfields], nearpeak[bedfields + 3],
+                  nearpeak[bedfields + 4], nearpeak[bedfields + 6])
 
         nearpeakd[peakkey].update([typenow])
 
     for peakid in nearpeakd:
 
         if peakid in d:
-
-            print ("error peakid in nearpeakd", peakid, nearpeakd[peakid], d[peakid])
+            print("error peakid in nearpeakd", peakid, nearpeakd[peakid], d[peakid])
 
     for peakid in d:
 
         if peakid in nearpeakd:
-
-            print ("error peakid in d", peakid, nearpeakd[peakid], d[peakid])
+            print("error peakid in d", peakid, nearpeakd[peakid], d[peakid])
 
     discount = defaultdict(int)
 
     for peak, distypes in list(nearpeakd.items()):
-
         distype = labelfilter(distypes)
 
         discount[distype] += 1
 
     disres = list(discount.items())
 
-
-
     for label, count in results:
-
         print(label, count, file=outio)
 
-
     for label, count in disres:
-
         print(label, count, file=outio)
 
     outio.close()
 
 
 def labelmaker(x):
-
     x.difference_update('.')
 
     label = []
@@ -632,11 +597,9 @@ def labelmaker(x):
     for i in list(x):
 
         if i == 'three_prime_UTR':
-
             i = "3'UTR"
 
         if i == 'five_prime_UTR':
-
             i = "5'UTR"
 
         label.append(i)
@@ -681,7 +644,6 @@ def labelfilter(x):
         tmplab = []
 
         for i in list(x):
-
             tmplab.append(i)
 
         label = ','.join(sorted(tmplab))
@@ -690,8 +652,8 @@ def labelfilter(x):
 
     # return ', '.join(sorted(label))
 
-def get_optparser():
 
+def get_optparser():
     usage = """usage: %prog  <-g gffile> [-n outfile]
     Example %prog -g hg18.gff3 -o concerto_config.txt
     """
@@ -702,8 +664,9 @@ def get_optparser():
 
     overtureopt.add_option("-g", "--gfffile", dest="gfffile", type="string", help="genome annotation file, gff3 format")
 
-    overtureopt.add_option("-o", "--output", dest="outfile", type="string", help="output file, default=concerto_config.txt",
-                            default="concerto_config.txt")
+    overtureopt.add_option("-o", "--output", dest="outfile", type="string",
+                           help="output file, default=concerto_config.txt",
+                           default="concerto_config.txt")
 
     overtureopt.add_option("-b", "--bedfile", dest="bedfile", type="string", help="peak file, bed format file")
 
@@ -711,12 +674,11 @@ def get_optparser():
 
     return overtureopt
 
-def opt_check(overtureopt):
 
+def opt_check(overtureopt):
     (opt, args) = overtureopt.parse_args()
 
     if not opt.gfffile:
-
         logging.error("you need input a genome annotation gff3 format file, '-g genome.gff'")
 
         overtureopt.print_help()
@@ -724,13 +686,11 @@ def opt_check(overtureopt):
         sys.exit(1)
 
     if not os.path.isfile(opt.gfffile):
-
         logging.error("No such file: %s" % opt.gfffile)
 
         sys.exit(1)
 
     if not opt.bedfile:
-
         logging.error("you need input a peak bed format file, '-b test.bed'")
 
         overtureopt.print_help()
@@ -738,7 +698,6 @@ def opt_check(overtureopt):
         sys.exit(1)
 
     if not os.path.isfile(opt.bedfile):
-
         logging.error("No such file: %s" % opt.bedfile)
 
         sys.exit(1)
@@ -746,19 +705,17 @@ def opt_check(overtureopt):
     if opt.profile:
 
         if not os.path.isfile(opt.profile):
-
             logging.error("No such file: %s" % opt.profile)
 
             sys.exit(1)
 
-
     return opt
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     # try:
 
-        main()
+    main()
 
     # except KeyboardInterrupt:
     #

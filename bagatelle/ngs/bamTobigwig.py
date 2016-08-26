@@ -10,9 +10,9 @@ import numpy as np
 Note: pyBigWig only allow float as values
 """
 
-def dhstobw(bamfile, bwfile, library='Duke'):
 
-    #Washington is under processing
+def dhstobw(bamfile, bwfile, library='Duke'):
+    # Washington is under processing
     """
 
     :param bamfile:
@@ -27,8 +27,6 @@ def dhstobw(bamfile, bwfile, library='Duke'):
         Out put cutting site '|'
     :return:
     """
-
-
 
     bamfor = Baminfo.Baminfo(bamfile)
 
@@ -50,7 +48,6 @@ def dhstobw(bamfile, bwfile, library='Duke'):
             values = list()
 
             for start in sorted(dhscut):
-
                 starts.append(start)
 
                 values.append(float(dhscut[start]))
@@ -61,8 +58,7 @@ def dhstobw(bamfile, bwfile, library='Duke'):
     bw.close()
 
 
-def dhsstrandtobw(bamfile,rbwfile, fbwfile, library='Duke', nagtiverev=True):
-
+def dhsstrandtobw(bamfile, rbwfile, fbwfile, library='Duke', nagtiverev=True):
     """
 
     :param bamfile:
@@ -103,13 +99,12 @@ def dhsstrandtobw(bamfile,rbwfile, fbwfile, library='Duke', nagtiverev=True):
             values = list()
 
             for start in sorted(dhscut['+']):
-
                 starts.append(start)
 
                 values.append(float(dhscut['+'][start]))
 
             bwf.addEntries(chromosome, starts=starts, values=values,
-                          span=1, step=1)
+                           span=1, step=1)
 
         if dhscut['-']:
 
@@ -121,20 +116,19 @@ def dhsstrandtobw(bamfile,rbwfile, fbwfile, library='Duke', nagtiverev=True):
 
                 starts.append(start)
                 if nagtiverev:
-                    values.append(0-float(dhscut['-'][start]))
+                    values.append(0 - float(dhscut['-'][start]))
                 else:
                     values.append(float(dhscut['-'][start]))
 
             bwr.addEntries(chromosome, starts=starts, values=values,
-                          span=1, step=1)
+                           span=1, step=1)
 
     bwf.close()
 
     bwr.close()
 
 
-def dhextendtobw(bamfile,bwfile, extendsize=20, library='Duke'):
-
+def dhextendtobw(bamfile, bwfile, extendsize=20, library='Duke'):
     """
 
     :param bamfile:
@@ -157,8 +151,6 @@ def dhextendtobw(bamfile,bwfile, extendsize=20, library='Duke'):
 
     bw.addHeader(list(bamfor.chrlen.items()))
 
-
-
     for chromosome in bamfor.chrlen:
 
         end = bamfor.chrlen[chromosome]
@@ -179,9 +171,9 @@ def dhextendtobw(bamfile,bwfile, extendsize=20, library='Duke'):
                 # starts.append(start)
                 #
                 # values.append(float(dhscut['+'][start]))
-                for i in range(0,extendsize):
+                for i in range(0, extendsize):
 
-                    nowsite = start+i
+                    nowsite = start + i
 
                     if 0 < nowsite < end:
 
@@ -189,8 +181,6 @@ def dhextendtobw(bamfile,bwfile, extendsize=20, library='Duke'):
                             dhsext[nowsite] += float(dhscut['+'][start])
                         else:
                             dhsext[nowsite] = float(dhscut['+'][start])
-
-
 
         if dhscut['-']:
 
@@ -200,7 +190,7 @@ def dhextendtobw(bamfile,bwfile, extendsize=20, library='Duke'):
 
             for start in sorted(dhscut['-']):
 
-                for i in range(0-extendsize, 0):
+                for i in range(0 - extendsize, 0):
                     nowsite = start + i
 
                     if 0 < nowsite < end:
@@ -216,22 +206,17 @@ def dhextendtobw(bamfile,bwfile, extendsize=20, library='Duke'):
         values = list()
 
         for nowsite in sorted(dhsext):
-
             starts.append(nowsite)
 
             values.append(dhsext[nowsite])
 
         bw.addEntries(chromosome, starts=starts, values=values,
-                          span=1, step=1)
+                      span=1, step=1)
 
     bw.close()
 
 
-
-
-
 def midtobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
-
     bamfor = Baminfo.Baminfo(bamfile)
 
     bw = pyBigWig.open(bwfile, "w")
@@ -252,7 +237,6 @@ def midtobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
             values = list()
 
             for start in sorted(mhsmidcount):
-
                 starts.append(start)
 
                 values.append(float(mhsmidcount[start]))
@@ -264,7 +248,6 @@ def midtobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
 
 
 def coveragetobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
-
     bamfor = Baminfo.Baminfo(bamfile)
 
     bw = pyBigWig.open(bwfile, "w")
@@ -276,7 +259,7 @@ def coveragetobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
         end = bamfor.chrlen[chromosome]
 
         coveragecount = mhsbam.coveragecount(bamfile=bamfile, chromosome=chromosome, start=1,
-                                         end=end, maxinsert=maxinsert, mininsert=mininsert, paired=paired)
+                                             end=end, maxinsert=maxinsert, mininsert=mininsert, paired=paired)
 
         if coveragecount:
 
@@ -285,7 +268,6 @@ def coveragetobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
             values = list()
 
             for start in sorted(coveragecount):
-
                 starts.append(start)
 
                 values.append(float(coveragecount[start]))
@@ -294,7 +276,6 @@ def coveragetobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
                           span=1, step=1)
 
     bw.close()
-
 
 
 def kernelsmooth(scorecount, regionstart, regionend, chr_length, kernelsize):
@@ -354,20 +335,16 @@ def kernelsmooth(scorecount, regionstart, regionend, chr_length, kernelsize):
         nowscore = nowsmoothed[j]
 
         if (startsite <= nowsite <= endsite):
-
             outputscore[nowsite] = nowscore
 
     return outputscore
 
 
-
 def mhsmidtobw(bamfile, bwfile, maxinsert=80, mininsert=1, paired=False):
-
     midtobw(bamfile=bamfile, bwfile=bwfile, maxinsert=maxinsert, mininsert=mininsert, paired=paired)
 
 
 def chipmidtobw(bamfile, bwfile, maxinsert=180, mininsert=130, paired=False):
-
     midtobw(bamfile=bamfile, bwfile=bwfile, maxinsert=maxinsert, mininsert=mininsert, paired=paired)
 
 
@@ -383,11 +360,10 @@ def chipcvtobw(bamfile, bwfile, maxinsert=180, mininsert=130, paired=False, exte
     :return:
     """
     chipbam.chipcoveragetobw(bamfile=bamfile, bwfile=bwfile, maxinsert=maxinsert,
-                         mininsert=mininsert, paired=paired, extend=extend)
+                             mininsert=mininsert, paired=paired, extend=extend)
 
 
 def mhsmidkernelsmooth(bamfile, bwfile, maxinsert=80, mininsert=1, paired=False, kernelsize=30):
-
     bamfor = Baminfo.Baminfo(bamfile)
 
     bw = pyBigWig.open(bwfile, "w")
@@ -421,7 +397,6 @@ def mhsmidkernelsmooth(bamfile, bwfile, maxinsert=80, mininsert=1, paired=False,
 
 
 def dhscutkernelsmooth(bamfile, bwfile, library='Duke', kernelsize=200):
-
     bamfor = Baminfo.Baminfo(bamfile)
 
     bw = pyBigWig.open(bwfile, "w")
@@ -444,7 +419,6 @@ def dhscutkernelsmooth(bamfile, bwfile, library='Duke', kernelsize=200):
             values = list()
 
             for start in sorted(dhscutsmoothed):
-
                 starts.append(start)
 
                 values.append(float(dhscutsmoothed[start]))
@@ -453,4 +427,3 @@ def dhscutkernelsmooth(bamfile, bwfile, library='Duke', kernelsize=200):
                           span=1, step=1)
 
     bw.close()
-
