@@ -263,46 +263,44 @@ def midextendtobw(bamfile, bwfile, maxinsert, mininsert, paired=False, extend=80
 
         if mhsmidcount:
 
-            # starts = list()
-            #
-            # values = list()
-            #
-            # for start in sorted(mhsmidcount):
-            #     starts.append(start)
-            #
-            #     values.append(float(mhsmidcount[start]))
-
             extended = dict()
 
             for midnow in mhsmidcount:
 
                 halfextend = int(extend/2)
 
-                for i in range(0-halfextend, halfextend+1):
+                rangestart = 0-halfextend
+                rangeend = halfextend+1
+
+                for i in range(rangestart, rangeend):
 
                     nowsite = i + midnow
 
                     if nowsite < 1:
                         continue
+
                     if nowsite > end:
                         continue
-                    if i in extended:
-                        extended[i] += 1
+
+                    if nowsite in extended:
+                        extended[nowsite] += mhsmidcount[midnow]
                     else:
-                        extended[i] = 1
+                        extended[nowsite] = mhsmidcount[midnow]
 
             starts = list()
 
             values = list()
 
-            for start in sorted(extended):
-                starts.append(start)
-
-                values.append(float(extended[start]))
+            for nowsite in sorted(extended):
 
 
-            bw.addEntries(chromosome, starts=starts, values=values,
-                          span=1, step=1)
+                starts.append(nowsite)
+
+                values.append(float(extended[nowsite]))
+
+
+
+            bw.addEntries(chromosome, starts=starts, values=values, span=1, step=1)
 
     bw.close()
 
