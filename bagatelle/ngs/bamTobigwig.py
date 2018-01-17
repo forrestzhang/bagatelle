@@ -247,6 +247,66 @@ def midtobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
     bw.close()
 
 
+def midextendtobw(bamfile, bwfile, maxinsert, mininsert, paired=False, extend=80):
+    bamfor = Baminfo.Baminfo(bamfile)
+
+    bw = pyBigWig.open(bwfile, "w")
+
+    bw.addHeader(list(bamfor.chrlen.items()))
+
+    for chromosome in bamfor.chrlen:
+
+        end = bamfor.chrlen[chromosome]
+
+        mhsmidcount = mhsbam.mhsmidcount(bamfile=bamfile, chromosome=chromosome, start=1,
+                                         end=end, maxinsert=maxinsert, mininsert=mininsert, paired=paired)
+
+        if mhsmidcount:
+
+            # starts = list()
+            #
+            # values = list()
+            #
+            # for start in sorted(mhsmidcount):
+            #     starts.append(start)
+            #
+            #     values.append(float(mhsmidcount[start]))
+
+            extended = dict()
+
+            for midnow in mhsmidcount:
+
+                halfextend = int(extend/2)
+
+                for i in range(0-halfextend, halfextend+1):
+
+                    nowsite = i + midnow
+
+                    if nowsite < 1:
+                        continue
+                    if nowsite > end:
+                        continue
+                    if i in extended:
+                        extended[i] += 1
+                    else:
+                        extended[i] = 1
+
+            starts = list()
+
+            values = list()
+
+            for start in sorted(extended):
+                starts.append(start)
+
+                values.append(float(extended[start]))
+
+
+            bw.addEntries(chromosome, starts=starts, values=values,
+                          span=1, step=1)
+
+    bw.close()
+
+
 def coveragetobw(bamfile, bwfile, maxinsert, mininsert, paired=False):
     bamfor = Baminfo.Baminfo(bamfile)
 
