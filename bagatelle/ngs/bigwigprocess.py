@@ -16,7 +16,7 @@ def getbwbybed(bedfile, inbwfile, outbwfile):
 
     inbw = pyBigWig.open(inbwfile, 'r')
 
-    bwheader = tuple(inbw.chroms().items)
+    bwheader = tuple(inbw.chroms().items())
 
     outbw.addHeader(bwheader)
 
@@ -47,7 +47,7 @@ def bwadjust(inbwfile, outbwfile, ratio):
 
     outbw = pyBigWig.open(outbwfile, 'w')
 
-    bwheader = tuple(inbw.chroms().items)
+    bwheader = tuple(inbw.chroms().items())
 
     outbw.addHeader(bwheader)
 
