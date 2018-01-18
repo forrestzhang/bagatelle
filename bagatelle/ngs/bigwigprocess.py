@@ -36,7 +36,7 @@ def getbwbybed(bedfile, inbwfile, outbwfile):
 
             values = regioncount.getbwbyregion(chrom, start, end, inbwfile)
 
-            outbw.addEntries(chrom, start=list(range(start+1, end+1)), values=values, span=1, step=1)
+            outbw.addEntries(chrom, starts=list(range(start+1, end+1)), values=values, span=1, step=1)
 
     outbw.close()
 
