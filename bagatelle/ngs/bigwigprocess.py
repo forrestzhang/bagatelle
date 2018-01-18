@@ -1,6 +1,7 @@
 from bagatelle.ngs import regioncount
 from os import path
 import pyBigWig
+import numpy as np
 
 def getbwbybed(bedfile, inbwfile, outbwfile):
 
@@ -29,12 +30,32 @@ def getbwbybed(bedfile, inbwfile, outbwfile):
 
             chrom = infor[0]
 
-            start = int(infor[1]) + 1
+            start = int(infor[1])
 
-            end = int(infor[2]) + 1
+            end = int(infor[2])
 
             values = regioncount.getbwbyregion(chrom, start, end, inbwfile)
 
-            outbw.addEntries(chrom, start=start, values=values, span=1, step=1)
+            outbw.addEntries(chrom, start=start+1, values=values, span=1, step=1)
 
     outbw.close()
+
+
+def bwadjust(inbwfile, outbwfile, ratio):
+
+    inbw = pyBigWig.open(inbwfile, 'r')
+
+    outbw = pyBigWig.open(outbwfile, 'w')
+
+    bwheader = inbw.header()
+
+    outbw.addHeader(bwheader)
+
+    for chrom in inbw.chroms():
+
+        values = inbw.values(chrom, 0, inbw.chroms(chrom), numpy=True) * ratio
+
+        outbw.addEntries(chrom, start=1, values=values.tolist(), span=1, step=1)
+
+    outbw.close()
+
