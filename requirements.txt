@@ -2,3 +2,4 @@ pyBigWig
 pysam>=0.8.1
 pandas
 biopython
+numpy
