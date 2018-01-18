@@ -334,3 +334,21 @@ def midcountworker(workerinfor):
         result.append(scorestring)
 
     return result
+
+
+def getbwbyregion(chrom, start, end, bwfile):
+
+    """
+
+    :param chrom:
+    :param start:
+    :param end:
+    :param bwfile:
+    :return: list of score from start to end in chrom
+    """
+
+    bw = pyBigWig.open(bwfile, "r")
+
+    score = bw.values(chrom, start, end)
+
+    return score
