@@ -59,3 +59,5 @@ def bwadjust(inbwfile, outbwfile, ratio):
 
     outbw.close()
 
+    inbw.close()
+
