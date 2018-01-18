@@ -351,4 +351,6 @@ def getbwbyregion(chrom, start, end, bwfile):
 
     score = bw.values(chrom, start, end)
 
+    bw.close()
+
     return score
