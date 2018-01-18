@@ -36,7 +36,7 @@ def getbwbybed(bedfile, inbwfile, outbwfile):
 
             values = regioncount.getbwbyregion(chrom, start, end, inbwfile)
 
-            outbw.addEntries(chrom, start=start+1, values=values, span=1, step=1)
+            outbw.addEntries(chrom, start=list(range(start+1, end+1)), values=values, span=1, step=1)
 
     outbw.close()
 
@@ -55,7 +55,7 @@ def bwadjust(inbwfile, outbwfile, ratio):
 
         values = inbw.values(chrom, 0, inbw.chroms(chrom), numpy=True) * ratio
 
-        outbw.addEntries(chrom, start=1, values=values.tolist(), span=1, step=1)
+        outbw.addEntries(chrom, starts=list(range(1, inbw.chroms(chrom)+1)), values=values.tolist(), span=1, step=1)
 
     outbw.close()
 
