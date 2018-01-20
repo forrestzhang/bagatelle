@@ -97,9 +97,9 @@ def bwcompare(treatbwfile, controlbwfile, outbwfile):
 
         controlvalue = controlbw.values(chrom, 0, controlbw.chroms(chrom), numpy=True)
 
-        outvalue = treatvalue - controlvalue
+        outvalue = np.nan_to_num(treatvalue) - np.nan_to_num(controlvalue)
 
-        outbw.addEntries(chrom, starts=list(range(1, treatvalue.chroms(chrom) + 1)), values=outvalue.tolist(), span=1, step=1)
+        outbw.addEntries(chrom, starts=list(range(1, treatbw.chroms(chrom) + 1)), values=outvalue.tolist(), span=1, step=1)
 
     treatbw.close()
 
