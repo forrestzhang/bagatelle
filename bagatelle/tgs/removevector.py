@@ -6,6 +6,10 @@ import sys
 def removevector(samfile):
 
 
+    # samfile generat by minialign
+    # example
+    # minialign -t 40  -x pacbio vector.fa m54143_180307_064412.subreads.bam.fastq > m54143_180307_064412.sam
+
     filename = samfile
 
     cfile = filename.replace('.sam', '_clean.fa')
