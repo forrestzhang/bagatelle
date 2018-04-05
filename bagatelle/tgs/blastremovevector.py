@@ -12,7 +12,7 @@ def removehost(fasta, bed, minilength):
 
     with open(bed) as bedin:
         for i in bedin:
-            (seqname, seqstart, seqend) = i.rstrip().split('\t')[0:2]
+            (seqname, seqstart, seqend) = i.rstrip().split('\t')[0:3]
 
             if seqname in removeregion:
 
@@ -37,7 +37,7 @@ def removehost(fasta, bed, minilength):
 
             if seqname in removeregion:
 
-                (seqname, seqstart, seqend) = removeregion[seqname].split('\t')[0:2]
+                (seqname, seqstart, seqend) = removeregion[seqname].split('\t')[0:3]
 
                 seqlen = len(removeregion[seqname])
 
