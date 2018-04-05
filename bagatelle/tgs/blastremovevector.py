@@ -69,7 +69,7 @@ def removehost(fasta, bed, minilength):
 
         else:
 
-                outst = '>' + seqname + '\n' + fa[seqname] + '\n'
+                outst = '>' + seqname + '\n' + str(fa[seqname]) + '\n'
 
                 outio.write(outst)
 
