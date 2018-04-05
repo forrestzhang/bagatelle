@@ -45,6 +45,10 @@ def removehost(fasta, bed, minilength):
 
                 mod = list()
 
+                seqstart = int(seqstart)
+                
+                seqend = int(seqend)
+
                 # sl = skip left, sr = skip right
 
                 if seqend - seqstart < minilength:
