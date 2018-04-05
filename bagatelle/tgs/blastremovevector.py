@@ -29,13 +29,15 @@ def removehost(fasta, bed, minilength):
 
     for seqname in fa.keys():
 
-        if len(removeregion[seqname]) > 1:
 
-            continue
 
-        else:
+        if seqname in removeregion:
 
-            if seqname in removeregion:
+            if len(removeregion[seqname]) > 1:
+
+                continue
+
+            else:
 
                 (seqname, seqstart, seqend) = removeregion[seqname].split('\t')[0:3]
 
@@ -65,7 +67,7 @@ def removehost(fasta, bed, minilength):
 
 
 
-            else:
+        else:
 
                 outst = '>' + seqname + '\n' + fa[seqname] + '\n'
 
