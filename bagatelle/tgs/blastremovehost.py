@@ -16,7 +16,7 @@ def removehost(fasta, bed):
 
 
 
-                removeregion[i.rstrip()[0]] = 1
+                removeregion[i.rstrip()] = 1
 
 
     fa = Fasta(fasta)
