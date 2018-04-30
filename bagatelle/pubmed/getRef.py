@@ -82,6 +82,8 @@ if __name__ == '__main__':
 
                 outio.write(recordsjson)
 
+                outio.write('\n')
+
                 pmids.clear()
 
                 endtime = datetime.datetime.now()
@@ -93,6 +95,22 @@ if __name__ == '__main__':
                 print(n, spendtime, "Total used:", totalsptime)
 
                 starttime = datetime.datetime.now()
+
+    # last <999
+    records = get_ref_pmid(pmids)
+
+    recordsjson = records_to_json(records)
+
+    outio.write(recordsjson)
+
+    endtime = datetime.datetime.now()
+
+    spendtime = endtime - starttime
+
+    totalsptime = endtime - firsttime
+
+    print(n, spendtime, "Total used:", totalsptime)
+
 
     outio.close()
 
