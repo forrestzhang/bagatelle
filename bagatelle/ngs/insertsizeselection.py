@@ -38,6 +38,8 @@ def check_options(parser):
 
         sys.exit(1)
 
+    return args
+
 def get_options():
 
     parser = argparse.ArgumentParser(description="bagatelle package for insert size selection", prog='bagatelle')
