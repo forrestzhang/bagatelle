@@ -73,9 +73,9 @@ def insersize(inbamfile, outbamfile, maxinsert, mininsert, paired=True):
 
         for aligened_read in samfile.fetch():
 
-            if aligened_read.is_proper_pair:
+            if aligened_read.is_paired:
 
-                insize = abs(aligened_read.isize)
+                insize = abs(aligened_read.template_length)
 
                 if mininsert <= insize <= maxinsert:
 
