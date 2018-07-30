@@ -9,7 +9,7 @@ def main():
 
     args = check_options(get_options())
 
-    inbedfle = args.inbedile
+    inbedfle = args.inbedfile
 
     outbedfile = args.outbedfile
 
