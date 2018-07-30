@@ -11,17 +11,16 @@ def main():
 
     inbedfle = args.inbedile
 
-    oubedfile = args.outbedfile
+    outbedfile = args.outbedfile
 
-
-
+    getmid(inbedfle, outbedfile)
 
 
 def check_options(parser):
 
     args = parser.parse_args()
 
-    if not path.exists(args.inbamfile):
+    if not path.exists(args.inbedfile):
 
         print("Can not located bed file, please input full path of bed file")
 
