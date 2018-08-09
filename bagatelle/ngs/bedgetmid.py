@@ -1,5 +1,4 @@
 import sys
-import pysam
 from os import path
 import argparse
 
@@ -43,6 +42,13 @@ def get_options():
 
 
 def getmid(inbedfle, outbedfile):
+
+    """
+
+    :param inbedfle: bed format file name dir
+    :param outbedfile: bed out file name or dir
+    :return: NULL
+    """
 
     outio = open(outbedfile, 'w')
 
