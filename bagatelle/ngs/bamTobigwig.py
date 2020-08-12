@@ -11,7 +11,7 @@ Note: pyBigWig only allow float as values
 """
 
 
-def dhstobw(bamfile, bwfile, library='Duke'):
+def dhstobw(bamfile, bwfile, excludechr='', library='Duke'):
     # Washington is under processing
     """
 
@@ -32,28 +32,42 @@ def dhstobw(bamfile, bwfile, library='Duke'):
 
     bw = pyBigWig.open(bwfile, "w")
 
-    bw.addHeader(list(bamfor.chrlen.items()))
+    excludechrs = excludechr.split(',')
+
+    countchrs = list()
+
+    for chrom in list(bamfor.chrlen.items()):
+
+        if chrom[0] not in excludechrs:
+            countchrs.append(chrom)
+
+    bw.addHeader(countchrs)
+
+    print(countchrs)
 
     for chromosome in bamfor.chrlen:
 
-        end = bamfor.chrlen[chromosome]
+        if chromosome not in excludechrs:
 
-        dhscut = dhsbam.dhcutcount(bamfile=bamfile, chromosome=chromosome, start=1,
-                                   end=end, library=library)
 
-        if dhscut:
+            end = bamfor.chrlen[chromosome]
 
-            starts = list()
+            dhscut = dhsbam.dhcutcount(bamfile=bamfile, chromosome=chromosome, start=1,
+                                       end=end, library=library)
 
-            values = list()
+            if dhscut:
 
-            for start in sorted(dhscut):
-                starts.append(start)
+                starts = list()
 
-                values.append(float(dhscut[start]))
+                values = list()
 
-            bw.addEntries(chromosome, starts=starts, values=values,
-                          span=1, step=1)
+                for start in sorted(dhscut):
+                    starts.append(start)
+
+                    values.append(float(dhscut[start]))
+
+                bw.addEntries(chromosome, starts=starts, values=values,
+                              span=1, step=1)
 
     bw.close()
 
